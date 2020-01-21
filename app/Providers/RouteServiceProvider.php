@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Faker\Provider\Base;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -58,9 +59,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
+        $base = getenv('Base_URL');
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->domain('apple.'.($base))
+            ->namespace($this->namespace)
+            ->group(base_path('routes/apple.php'));
+        Route::middleware('web')
+            ->domain('banana.'.($base))
+            ->namespace($this->namespace)
+            ->group(base_path('routes/banana.php'));
     }
 
     /**
@@ -72,9 +79,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
+
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 }
